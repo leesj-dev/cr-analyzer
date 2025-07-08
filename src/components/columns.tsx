@@ -15,7 +15,7 @@ export const columns: ColumnDef<CardStats>[] = [
       return (
         <div className="flex items-center gap-3">
           <img
-            src={`/cards/${getCardImageName(cardName)}`}
+            src={`./cards/${getCardImageName(cardName)}`}
             alt={cardName}
             className="w-8 h-auto"
             onError={(e) => { e.currentTarget.style.display = 'none' }}

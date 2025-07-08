@@ -24,7 +24,7 @@ export function DeckCard({ deckId }: Props) {
               <Tooltip key={name}>
                 <TooltipTrigger asChild>
                   <img
-                    src={`/cards/${getCardImageName(name)}`}
+                    src={`./cards/${getCardImageName(name)}`}
                     alt={name}
                     className="w-full rounded-sm aspect-square object-contain"
                     onError={(e) => { e.currentTarget.style.border = '1px solid hsl(var(--border))' }}
