@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 import time
 
-DOWNLOAD_FOLDER = "./public/assets/cards"
+DOWNLOAD_FOLDER = "./public/cards"
 
 # --- 폴더 생성 ---
 if not os.path.exists(DOWNLOAD_FOLDER):
