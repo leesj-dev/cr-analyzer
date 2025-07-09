@@ -1,39 +1,43 @@
 // src/App.tsx
 import { useState, useMemo } from 'react';
-import type { Battle, AnalysisResult } from './lib/types';
-import { parseCsvFiles, extractPlayerDecks, analyzeOpponentCards, extractCardNamesFromRow } from './lib/utils';
-import { FileUploader } from './components/FileUploader';
-import { DeckSelector } from './components/DeckSelector';
-import { CardDataTable } from './components/CardDataTable';
-import { FilterCombobox } from './components/FilterCombobox';
-import { columns } from './components/columns';
+import type { Battle, AnalysisResult } from '@/lib/types';
+import { parseCsvFiles, extractPlayerDecks, analyzeOpponentCards, extractCardNamesFromRow } from '@/lib/utils';
+import { FileUploader } from '@/components/FileUploader';
+import { DeckSelector } from '@/components/DeckSelector';
+import { CardDataTable } from '@/components/CardDataTable';
+import { FilterCombobox } from '@/components/FilterCombobox';
+import { columns } from '@/components/columns';
 import { Loader2, ArrowLeft } from 'lucide-react';
-import { Card, CardContent } from './components/ui/card';
-import { Button } from './components/ui/button';
-import { translateCardName } from './lib/translations';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { translateCardName } from '@/lib/translations';
+import { EvoToggle } from '@/components/EvoToggle';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [battles, setBattles] = useState<Battle[]>([]);
   const [selectedDeck, setSelectedDeck] = useState<string | null>(null);
   const [filterCards, setFilterCards] = useState<string[]>([]);
+  const [includeEvo, setIncludeEvo] = useState(true);
 
   const allOpponentCards = useMemo(() => {
     if (battles.length === 0) return [];
     const cardSet = new Set<string>();
     battles.forEach(battle => {
-      const opponentCards = extractCardNamesFromRow(battle, 'opponent', true);
+      const opponentCards = extractCardNamesFromRow(battle, 'opponent', includeEvo);
       opponentCards.forEach(cardName => cardSet.add(cardName));
     });
     return Array.from(cardSet).sort();
-  }, [battles]);
+  }, [battles, includeEvo]);
 
-  const playerDecks = useMemo(() => (battles.length > 0 ? extractPlayerDecks(battles) : []), [battles]);
+  const playerDecks = useMemo(() => (
+    battles.length > 0 ? extractPlayerDecks(battles) : []
+  ), [battles]);
 
   const analysisResult: AnalysisResult | null = useMemo(() => {
     if (!selectedDeck) return null;
-    return analyzeOpponentCards(battles, selectedDeck, filterCards);
-  }, [battles, selectedDeck, filterCards]);
+    return analyzeOpponentCards(battles, selectedDeck, filterCards, includeEvo);
+  }, [battles, selectedDeck, filterCards, includeEvo]);
 
   const handleFileUpload = async (files: File[]) => {
     const parsedData = await parseCsvFiles(files);
@@ -49,6 +53,11 @@ function App() {
     setIsLoading(false);
     setBattles([]);
     setSelectedDeck(null);
+    setFilterCards([]);
+  }
+
+  const handleToggleChange = (checked: boolean) => {
+    setIncludeEvo(checked);
     setFilterCards([]);
   }
 
@@ -93,24 +102,30 @@ return (
           <main className="w-full flex-grow overflow-y-auto hide-scrollbar p-4 md:p-6">
             {analysisResult && (
               <Card className="w-full">
-                <CardContent className="space-y-3 md:space-y-6">
+                <CardContent className="space-y-3 lg:space-y-6">
                   <div>
                     <h3 className="font-semibold text-lg">
                       {filterCards.length > 0 ? `[${filterCards.map(translateCardName).join(', ')}] 포함 경기` : '전체 경기'} 결과
                     </h3>
                     <p className="text-3xl font-bold">
-                      승률 {analysisResult.overall.winRate}%
+                      승률 {analysisResult.overall.totalGames === 0 ? "-" : `${analysisResult.overall.winRate}%`}
                     </p>
                     <p className="text-muted-foreground">
                       {analysisResult.overall.totalGames}전 {analysisResult.overall.winCount}승 {analysisResult.overall.totalGames - analysisResult.overall.winCount}패
                     </p>
                   </div>
-                  <div>
+                  <div className="lg:hidden">
+                    <EvoToggle checked={includeEvo} onCheckedChange={handleToggleChange}/>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <FilterCombobox
                       allCards={allOpponentCards}
                       selectedCards={filterCards}
                       onSelectionChange={setFilterCards}
                     />
+                    <div className="hidden lg:block lg:ml-20">
+                      <EvoToggle checked={includeEvo} onCheckedChange={handleToggleChange}/>
+                    </div>
                   </div>
                   <div className="w-full max-w-lg">
                     <h3 className="font-semibold text-lg mb-2">상세 통계</h3>

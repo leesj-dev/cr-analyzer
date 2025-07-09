@@ -1,5 +1,5 @@
 import { RadioGroup } from "@/components/ui/radio-group" // RadioGroup 임포트
-import { DeckCard } from './DeckCard';
+import { DeckCard } from '@/components/DeckCard';
 
 interface Props {
   deckIds: string[];

@@ -10,12 +10,10 @@ const createSortingFn = (key: keyof Pick<CardStats, 'winRate' | 'winCount' | 'to
   return (rowA: Row<CardStats>, rowB: Row<CardStats>): number => {
     const valueA = rowA.original[key];
     const valueB = rowB.original[key];
-
     // 1차 정렬 기준(숫자)이 같으면, 2차 정렬(한글 이름)을 실행
     if (valueA === valueB) {
       return rowB.original.translatedCardName.localeCompare(rowA.original.translatedCardName, 'ko');
     }
-
     // 1차 정렬
     return valueA > valueB ? 1 : -1;
   };
