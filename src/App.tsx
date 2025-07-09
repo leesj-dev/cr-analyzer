@@ -103,19 +103,21 @@ return (
             {analysisResult && (
               <Card className="w-full">
                 <CardContent className="space-y-3 lg:space-y-6">
-                  <div>
-                    <h3 className="font-semibold text-lg">
-                      {filterCards.length > 0 ? `[${filterCards.map(translateCardName).join(', ')}] 포함 경기` : '전체 경기'} 결과
-                    </h3>
-                    <p className="text-3xl font-bold">
-                      승률 {analysisResult.overall.totalGames === 0 ? "-" : `${analysisResult.overall.winRate}%`}
-                    </p>
-                    <p className="text-muted-foreground">
-                      {analysisResult.overall.totalGames}전 {analysisResult.overall.winCount}승 {analysisResult.overall.totalGames - analysisResult.overall.winCount}패
-                    </p>
-                  </div>
-                  <div className="lg:hidden">
-                    <EvoToggle checked={includeEvo} onCheckedChange={handleToggleChange}/>
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h3 className="font-semibold text-lg">
+                        {filterCards.length > 0 ? `[${filterCards.map(translateCardName).join(', ')}] 포함 경기` : '전체 경기'} 결과
+                      </h3>
+                      <p className="text-3xl font-bold">
+                        승률 {analysisResult.overall.totalGames === 0 ? "-" : `${analysisResult.overall.winRate}%`}
+                      </p>
+                      <p className="text-muted-foreground">
+                        {analysisResult.overall.totalGames}전 {analysisResult.overall.winCount}승 {analysisResult.overall.totalGames - analysisResult.overall.winCount}패
+                      </p>
+                    </div>
+                    <div className="sm:hidden md:block lg:hidden">
+                      <EvoToggle checked={includeEvo} onCheckedChange={handleToggleChange}/>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <FilterCombobox
@@ -123,7 +125,7 @@ return (
                       selectedCards={filterCards}
                       onSelectionChange={setFilterCards}
                     />
-                    <div className="hidden lg:block lg:ml-20">
+                    <div className="hidden sm:block md:hidden lg:block lg:ml-20">
                       <EvoToggle checked={includeEvo} onCheckedChange={handleToggleChange}/>
                     </div>
                   </div>

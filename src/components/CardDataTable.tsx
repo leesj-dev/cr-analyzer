@@ -45,7 +45,7 @@ export function CardDataTable<TData, TValue>({
   })
 
   return (
-    <div className="w-full h-[calc(100vh-495px)] md:h-[calc(100vh-362px)] overflow-y-auto rounded-md border hide-scrollbar">
+    <div className="w-full h-[calc(100vh-495px)] md:h-[calc(100vh-338px)] lg:h-[calc(100vh-362px)] overflow-y-auto rounded-md border hide-scrollbar">
       <Table className="table-fixed">
         <TableHeader className="sticky top-0 z-10 bg-background">
           {table.getHeaderGroups().map((headerGroup) => (
