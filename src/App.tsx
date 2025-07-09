@@ -80,7 +80,7 @@ function App() {
 
 return (
     <div className="w-full h-full bg-slate-50 p-0">
-      <div className="w-full max-w-screen-lg h-full mx-auto flex flex-col bg-background shadow-lg">
+      <div className="w-full max-w-[58rem] h-full mx-auto flex flex-col bg-background shadow-lg">
         <header className="flex items-center justify-between p-4 border-b h-14 flex-shrink-0">
             <Button variant="outline" size="icon" onClick={resetApp}>
               <ArrowLeft className="h-4 w-4" />
@@ -102,7 +102,7 @@ return (
           <main className="w-full flex-grow overflow-y-auto hide-scrollbar p-4 md:p-6">
             {analysisResult && (
               <Card className="w-full">
-                <CardContent className="space-y-3 lg:space-y-6">
+                <CardContent className="space-y-4">
                   <div className="flex justify-between items-center">
                     <div>
                       <h3 className="font-semibold text-lg">

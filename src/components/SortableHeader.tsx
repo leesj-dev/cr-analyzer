@@ -40,7 +40,7 @@ export const SortableHeader = ({
       )}
     >
       {children}
-      <ArrowUpDown className="ml-2 h-4 w-4" />
+      <ArrowUpDown className="ml-0.5 sm:ml-1 h-4 w-4" />
     </Button>
   )
 };
