@@ -3,6 +3,7 @@ import { getCardImageName } from '@/lib/utils';
 import { RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { translateCardName } from "@/lib/translations";
 
 interface Props {
   deckId: string;
@@ -30,7 +31,7 @@ export function DeckCard({ deckId }: Props) {
                     onError={(e) => { e.currentTarget.style.border = '1px solid hsl(var(--border))' }}
                   />
                 </TooltipTrigger>
-                <TooltipContent><p>{name}</p></TooltipContent>
+                <TooltipContent><p>{translateCardName(name)}</p></TooltipContent>
               </Tooltip>
             ))}
           </div>

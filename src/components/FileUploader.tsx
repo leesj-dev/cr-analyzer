@@ -28,7 +28,7 @@ export function FileUploader({ onUpload, setIsLoading }: Props) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg">
+        <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-lg">
           <UploadCloud className="w-12 h-12 text-muted-foreground" />
           <p className="mt-4 text-sm text-muted-foreground">파일을 여기에 드래그하거나 아래를 클릭하세요</p>
           <Input

@@ -45,14 +45,14 @@ export function CardDataTable<TData, TValue>({
   })
 
   return (
-    <div className="w-full max-h-[65vh] overflow-y-auto rounded-md border">
-      <Table>
+    <div className="w-full h-[calc(100vh-495px)] md:h-[calc(100vh-362px)] overflow-y-auto rounded-md border hide-scrollbar">
+      <Table className="table-fixed">
         <TableHeader className="sticky top-0 z-10 bg-background">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead key={header.id} style={{ width: header.getSize() }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -73,7 +73,7 @@ export function CardDataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}

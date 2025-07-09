@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Badge } from "@/components/ui/badge"
+import { translateCardName } from "@/lib/translations"
 
 interface Props {
   allCards: string[];
@@ -22,7 +23,12 @@ export function FilterCombobox({ allCards, selectedCards, onSelectionChange }: P
     onSelectionChange(newSelection);
   }
   
-  const options = allCards.map(card => ({ value: card, label: card }));
+  const options = allCards
+    .map(card => ({
+      value: card,
+      label: translateCardName(card)
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label, 'ko')); 
 
   return (
     <div className="flex flex-col gap-2">
@@ -86,7 +92,7 @@ export function FilterCombobox({ allCards, selectedCards, onSelectionChange }: P
               variant="secondary" 
               className="flex items-center gap-1"
             >
-              <span>{card}</span>
+              <span>{translateCardName(card)}</span>
               <div onClick={() => handleSelect(card)} className="cursor-pointer">
                 <X className="h-3 w-3" />
               </div>

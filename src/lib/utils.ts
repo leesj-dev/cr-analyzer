@@ -3,6 +3,7 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import Papa from 'papaparse';
 import type { Battle, CardStats, AnalysisResult } from  './types';
+import { translateCardName } from './translations';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -61,13 +62,30 @@ export const extractCardNamesFromRow = (
     return cardNames;
 };
 
+const sortDeckCards = (cards: string[]): string[] => {
+  return cards.sort((a, b) => {
+    const aIsEvo = a.startsWith('Evo ');
+    const bIsEvo = b.startsWith('Evo ');
+
+    if (aIsEvo && !bIsEvo) {
+      return -1; // a가 앞으로
+    }
+    if (!aIsEvo && bIsEvo) {
+      return 1; // b가 앞으로
+    }
+    // 둘 다 진화이거나 둘 다 아니면, 알파벳순으로 정렬
+    return a.localeCompare(b);
+  });
+};
+
+
 export function extractPlayerDecks(battles: Battle[]): string[] {
     const deckSet = new Set<string>();
     battles.forEach(battle => {
         const cards = extractCardNamesFromRow(battle, 'team');
         if (cards.length > 0) {
-            // 👇 카드를 알파벳순으로 정렬하여 덱의 고유성을 보장합니다.
-            const deckId = cards.sort().join(',');
+            const sortedCards = sortDeckCards(cards);
+            const deckId = sortedCards.join(',');
             deckSet.add(deckId);
         }
     });
@@ -81,7 +99,8 @@ export function analyzeOpponentCards(
 ): AnalysisResult {
     const battlesWithSelectedDeck = battles.filter(b => {
         const teamCards = extractCardNamesFromRow(b, 'team');
-        return teamCards.sort().join(',') === selectedDeckId;
+        const sortedTeamCards = sortDeckCards(teamCards);
+        return sortedTeamCards.join(',') === selectedDeckId;
     });
 
     const filteredBattles = filterCardNames.length > 0
@@ -114,19 +133,15 @@ export function analyzeOpponentCards(
 
     const cardStats: CardStats[] = Array.from(cardStatsMap.entries()).map(([name, data]) => ({
         cardName: name,
+        translatedCardName: translateCardName(name),
         winRate: data.total > 0 ? Math.round((data.wins / data.total) * 100) : 0,
         winCount: data.wins,
         totalGames: data.total,
     }));
 
-    cardStats.sort((a, b) => {
-        if (b.winRate !== a.winRate) return b.winRate - a.winRate;
-        if (b.totalGames !== a.totalGames) return b.totalGames - a.totalGames;
-        return a.cardName.localeCompare(b.cardName);
-    });
-
     const overall: CardStats = {
         cardName: 'Overall',
+        translatedCardName: '전체',
         winRate: filteredBattles.length > 0 ? Math.round((overallWins / filteredBattles.length) * 100) : 0,
         winCount: overallWins,
         totalGames: filteredBattles.length,

@@ -10,6 +10,7 @@ import { columns } from './components/columns';
 import { Loader2, ArrowLeft } from 'lucide-react';
 import { Card, CardContent } from './components/ui/card';
 import { Button } from './components/ui/button';
+import { translateCardName } from './lib/translations';
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,9 +70,9 @@ function App() {
   }
 
 return (
-    <div className="w-full h-full bg-slate-50 dark:bg-slate-900 p-0">
+    <div className="w-full h-full bg-slate-50 p-0">
       <div className="w-full max-w-screen-lg h-full mx-auto flex flex-col bg-background shadow-lg">
-        <header className="flex items-center justify-between p-4 border-b h-16 flex-shrink-0">
+        <header className="flex items-center justify-between p-4 border-b h-14 flex-shrink-0">
             <Button variant="outline" size="icon" onClick={resetApp}>
               <ArrowLeft className="h-4 w-4" />
               <span className="sr-only">뒤로가기</span>
@@ -80,7 +81,7 @@ return (
             <div className="w-9"></div> 
         </header>
         
-        <div className="flex flex-col lg:flex-row flex-grow overflow-hidden">
+        <div className="flex flex-col md:flex-row flex-grow overflow-hidden">
           <DeckSelector
             deckIds={playerDecks}
             selectedDeck={selectedDeck}
@@ -89,13 +90,13 @@ return (
               setFilterCards([]);
             }}
           />
-          <main className="w-full flex-grow p-4 lg:p-6 overflow-y-auto">
+          <main className="w-full flex-grow overflow-y-auto hide-scrollbar p-4 md:p-6">
             {analysisResult && (
               <Card className="w-full">
-                <CardContent className="space-y-6">
+                <CardContent className="space-y-3 md:space-y-6">
                   <div>
                     <h3 className="font-semibold text-lg">
-                      {filterCards.length > 0 ? `[${filterCards.join(', ')}] 포함 경기` : '전체 경기'} 결과
+                      {filterCards.length > 0 ? `[${filterCards.map(translateCardName).join(', ')}] 포함 경기` : '전체 경기'} 결과
                     </h3>
                     <p className="text-3xl font-bold">
                       승률 {analysisResult.overall.winRate}%
