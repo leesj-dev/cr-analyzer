@@ -1,3 +1,4 @@
+// src/components/EvoToggle.tsx
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 
@@ -9,11 +10,7 @@ interface EvoToggleProps {
 export const EvoToggle = ({ checked, onCheckedChange }: EvoToggleProps) => {
   return (
     <div className="flex items-center space-x-2">
-      <Switch
-        id="evo-toggle"
-        checked={checked}
-        onCheckedChange={onCheckedChange}
-      />
+      <Switch id="evo-toggle" checked={checked} onCheckedChange={onCheckedChange} />
       <Label htmlFor="evo-toggle">진화카드 분리</Label>
     </div>
   );

@@ -1,8 +1,8 @@
 // src/components/FileUploader.tsx
-import React from 'react';
+import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { UploadCloud } from 'lucide-react';
+import { UploadCloud } from "lucide-react";
 
 interface Props {
   onUpload: (files: File[]) => void;
@@ -14,7 +14,7 @@ export function FileUploader({ onUpload, setIsLoading }: Props) {
     if (e.target.files && e.target.files.length > 0) {
       setIsLoading(true);
       // 로딩 UI를 보여주기 위해 약간의 딜레이를 줌
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
       onUpload(Array.from(e.target.files));
     }
   };

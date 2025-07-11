@@ -1,6 +1,7 @@
+// src/lib/types.ts
 export interface Battle {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any; 
+  [key: string]: any;
 }
 
 export interface CardStats {

@@ -1,7 +1,7 @@
 // src/components/CardDataTable.tsx
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   type ColumnDef,
   type SortingState,
@@ -9,29 +9,17 @@ import {
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
-export function CardDataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([
-    { id: "winRate", desc: true },
-  ])
+export function CardDataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([{ id: "winRate", desc: true }]);
 
   const table = useReactTable({
     data,
@@ -42,25 +30,20 @@ export function CardDataTable<TData, TValue>({
     state: {
       sorting,
     },
-  })
+  });
 
   return (
-    <div className="w-full h-[calc(100vh-495px)] md:h-[calc(100vh-338px)] lg:h-[calc(100vh-362px)] overflow-y-auto rounded-md border hide-scrollbar">
+    <div className="absolute inset-0 overflow-y-auto rounded-md border hide-scrollbar">
       <Table className="table-fixed">
-        <TableHeader className="sticky top-0 z-10 bg-background">
+        <TableHeader className="sticky top-0 z-10 bg-background shadow-[0_1px_0_theme(colors.border)]">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id} style={{ width: header.getSize() }}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -68,10 +51,7 @@ export function CardDataTable<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
+              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -89,5 +69,5 @@ export function CardDataTable<TData, TValue>({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

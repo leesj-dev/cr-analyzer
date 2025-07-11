@@ -1,3 +1,4 @@
+// src/lib/translations.ts
 export const cardTranslations: { [key: string]: string } = {
   // 일반
   "Minions": "미니언",
@@ -47,7 +48,7 @@ export const cardTranslations: { [key: string]: string } = {
   "Dart Goblin": "다트 고블린",
   "Zappies": "감전돌이",
   "Goblin Demolisher": "고블린 데몰리셔",
-  "Healing Spirit": "힐링 스피릿",
+  "Heal Spirit": "힐링 스피릿",
   "Suspicious Bush": "수상한 수풀",
   "Elixir Golem": "엘릭서 골렘",
   "Goblin Cage": "고블린 우리",
@@ -119,7 +120,7 @@ export const cardTranslations: { [key: string]: string } = {
   "Graveyard": "무덤",
 
   // 챔피언
-  "Gold Knight": "골드 나이트",
+  "Golden Knight": "골드 나이트",
   "Skeleton King": "해골 킹",
   "Boss Bandit": "대장 도둑",
   "Archer Queen": "아처 퀸",
